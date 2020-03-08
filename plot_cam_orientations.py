@@ -126,11 +126,11 @@ def plot_camera_rel_world(rt_dict, plt_file = ""):
                 zs=[cam_coord_000[1][0], cam_coord_001[1][0]], color='b')
         ax.text(cam_coord_000[0][0], cam_coord_000[2][0], cam_coord_000[1][0], cam_num)
 
-    plt.show()
     if plt_file == "":
         plt.savefig('camera_3D_plot.png')
     else:
         plt.savefig(plt_file)
+    plt.show()
     return
 
 if __name__ == '__main__':
@@ -174,11 +174,11 @@ if __name__ == '__main__':
     cam_fts_dict = read_cam_params_markers(sys.argv[1], aruco_dict)
     output = calc_cam_pose_frm_aruco(cam_fts_dict, aruco_info)
 
-    file = 'color_cam_transform.txt' if not sys.argv[2] else sys.argv[2]
+    file = 'color_cam_transform.txt' if len(sys.argv) < 3 else sys.argv[2]
     with open('color_cam_transform.txt', 'w') as outfile:
         json.dump(output, outfile, indent=4)
 
-    if not sys.argv[3]:
+    if len(sys.argv) < 4:
         plot_camera_rel_world(output)
     else:
         plot_camera_rel_world(output, sys.argv[3])
